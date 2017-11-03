@@ -30,6 +30,7 @@ function! ale_linters#go#gometalinter#Handler(buffer, lines) abort
 
     for l:match in ale_linters#go#gometalinter#GetMatches(a:lines)
         call add(l:output, {
+		\	'filename': l:match[1],
         \   'lnum': l:match[2] + 0,
         \   'col': l:match[3] + 0,
         \   'type': tolower(l:match[4]) is# 'warning' ? 'W' : 'E',

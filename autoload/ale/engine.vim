@@ -381,7 +381,9 @@ function! ale#engine#FixLocList(buffer, linter_name, loclist) abort
             " and the filename is not included then, because it looks bad
             " in the loclist window.
             let l:filename = l:old_item.filename
-            let l:item.filename = l:filename
+			if !has_key(l:item, 'filename')
+				let l:item.filename = l:filename
+			endif
 
             if has_key(l:old_item, 'bufnr')
                 " If a buffer number is also given, include that too.
