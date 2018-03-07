@@ -83,9 +83,8 @@ function! ale#lsp#CreateMessageData(message) abort
     let l:is_notification = a:message[0]
 
     let l:obj = {
-    \   'id': v:null,
-    \   'jsonrpc': '2.0',
     \   'method': a:message[1],
+    \   'jsonrpc': '2.0',
     \}
 
     if !l:is_notification
@@ -324,6 +323,20 @@ function! ale#lsp#ConnectToAddress(address, project_root, callback) abort
     call ale#lsp#RegisterProject(l:conn, a:project_root)
 
     return 1
+endfunction
+
+" Stop all LSP connections, closing all jobs and channels, and removing any
+" queued messages.
+function! ale#lsp#StopAll() abort
+    for l:conn in s:connections
+        if has_key(l:conn, 'channel')
+            call ch_close(l:conn.channel)
+        else
+            call ale#job#Stop(l:conn.id)
+        endif
+    endfor
+
+    let s:connections = []
 endfunction
 
 function! s:SendMessageData(conn, data) abort
