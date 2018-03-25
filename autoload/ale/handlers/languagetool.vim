@@ -13,7 +13,7 @@ function! ale#handlers#languagetool#Handle(buffer, lines) abort
     endif
 
     let l:output = []
-    for l:error in l:errors[keys(l:errors['matches'])[0]]
+    for l:error in l:errors['matches']
 		let l:col_span = str2nr(str2nr(l:error['length']))
 		let l:byte_num = str2nr(str2nr(l:error['offset']))
 		let l:line_num = byte2line(l:byte_num)
