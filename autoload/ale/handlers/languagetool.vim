@@ -14,16 +14,15 @@ function! ale#handlers#languagetool#Handle(buffer, lines) abort
 
     let l:output = []
     for l:error in l:errors['matches']
-		let l:col_span = str2nr(str2nr(l:error['length']))
-		let l:byte_num = str2nr(str2nr(l:error['offset']))
-		let l:line_num = byte2line(l:byte_num)
-		let l:col_num = l:byte_num - line2byte(l:line_num)
-        call add(l:output, {
-        \   'lnum': l:line_num,
-        \   'col': l:col_num,
-        \   'end_col': l:col_num + l:col_span,
+		let l:col_span = str2nr(l:error['length'])
+		let l:byte_num = str2nr(l:error['offset'])
+		let [l:lnum, l:col] = searchpos(l:error['context']['text'], 'nb', byte2line(l:byte_num)+1)
+		call add(l:output, {
+        \   'lnum': l:lnum,
+        \   'col': l:col,
+        \   'end_col': l:col + l:col_span,
         \   'code': l:error['rule']['id'],
-        \   'text': l:error['shortMessage'],
+        \   'text': l:error['message'],
         \   'type': 'E',
         \})
     endfor
