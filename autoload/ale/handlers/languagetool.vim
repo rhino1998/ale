@@ -1,7 +1,7 @@
 " Author: Riley Wilburn <rhino1998@gmail.com>
-" Description: output handler for the langtool JSON format
+" Description: output handler for the languagetool JSON format
 
-function! ale#handlers#langtool#Handle(buffer, lines) abort
+function! ale#handlers#languagetool#Handle(buffer, lines) abort
     try
         let l:errors = json_decode(join(a:lines, ''))
     catch
