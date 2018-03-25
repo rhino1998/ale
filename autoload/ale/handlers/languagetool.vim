@@ -21,7 +21,7 @@ function! ale#handlers#languagetool#Handle(buffer, lines) abort
 		let l:pos = searchpos(substitute(
 			\ l:error['context']['text'],
 			\ ' ',
-			\ '[\s\n]',
+			\ '[ \t\n]',
 			\ '',
 			\ ), 'n', byte2line(l:byte_num)+1)
 		call add(l:output, {
